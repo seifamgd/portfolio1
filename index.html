@@ -352,6 +352,8 @@ section{position:relative; padding:160px 8vw; max-width:1400px; margin:0 auto;}
 
 .brand-video-container.ratio-16-9 { aspect-ratio: 16/9; }
 .brand-video-container.ratio-9-16 { aspect-ratio: 9/16; max-width: 360px; margin-left: auto; margin-right: auto; }
+#brandVideosList.multi-vertical { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+#brandVideosList.multi-vertical .brand-video-container.ratio-9-16 { max-width: none; width: 100%; margin: 0 0 12px; }
 
 .brand-video-container iframe {
   position: absolute;
@@ -811,11 +813,10 @@ const brandsData = [
     gradient: 'linear-gradient(135deg, rgba(185,140,255,0.18) 0%, rgba(32,18,50,0.85) 100%)',
     description: '⚠️ Personal Training Work — This is my own creative project for learning and skill development purposes only, not representing any actual brand or client. Pinnacle showcase of generative AI lighting, cinematic camera flow, and realistic visual texturing.',
     videos: [
-      {
-        title: 'AETHER — Flagship Brand Commercial',
-        youtubeId: 'Bc3Fgvr8FGo',
-        vertical: false
-      }
+      { title: 'AETHER — Brand Short 1', youtubeId: 'hcqfTA9zGk8', vertical: true },
+      { title: 'AETHER — Brand Short 2', youtubeId: 'VMP70kng4yw', vertical: true },
+      { title: 'AETHER — Brand Short 3', youtubeId: 'JrHgBGlD5eY', vertical: true },
+      { title: 'AETHER — Brand Short 4', youtubeId: 'z9z-4XnYlEg', vertical: true }
     ],
     images: [],
     goal: 'Showcase advanced AI-generated cinematic flow, lighting, and realistic texturing in a high-impact demonstration reel.',
@@ -915,13 +916,13 @@ const brandsData = [
       }
     ],
     images: [
-      { url: 'bi1.jpg', title: 'Pure Pomegranate - Rustic Leaves' },
-      { url: 'bi2.jpg', title: 'Pure Pomegranate - Industrial Concept' },
-      { url: 'bi3.png', title: 'Pure Pomegranate - Character Design' },
-      { url: 'bi4.png', title: 'Pure Pomegranate - Lifestyle Icons' },
-      { url: 'bi5.png', title: 'Pure Pomegranate - Liquid Splash' },
-      { url: 'bi6.png', title: 'Pure Pomegranate - Dynamic Slice' },
-      { url: 'bi7.png', title: 'Pure Pomegranate - Splash Explosion' }
+      { url: 'bi1.png', title: 'Project Still 1' },
+      { url: 'bi2.png', title: 'Project Still 2' },
+      { url: 'bi3.png', title: 'Project Still 3' },
+      { url: 'bi4.png', title: 'Project Still 4' },
+      { url: 'bi5.png', title: 'Project Still 5' },
+      { url: 'bi6.png', title: 'Project Still 6' },
+      { url: 'bi7.png', title: 'Project Still 7' }
     ],
     goal: 'Develop expertise in advanced AI-driven creative production while exploring cutting-edge generation and post-production workflows.',
     tools: 'ChatGPT, Claude, Gemini, Nano Banana, Veo, Kling, Flow, CapCut - Comprehensive suite for prompt engineering, video generation, and professional editing.',
@@ -990,10 +991,11 @@ function openBrandModal(brand) {
   
   if (brand.videos && brand.videos.length > 0) {
     document.getElementById('brandVideosSection').style.display = 'block';
-    brand.videos.forEach(v => {
+    videosList.classList.toggle('multi-vertical', brand.videos.length > 1 && brand.videos.every(v => v.vertical));
+    brand.videos.forEach((v, i) => {
       const container = document.createElement('div');
       container.className = `brand-video-container ${v.vertical ? 'ratio-9-16' : 'ratio-16-9'}`;
-      container.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.youtubeId}?autoplay=1" title="${v.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+      container.innerHTML = `<iframe src="https://www.youtube.com/embed/${v.youtubeId}?autoplay=${brand.videos.length > 1 ? 0 : 1}" title="${v.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
       videosList.appendChild(container);
     });
   } else {
